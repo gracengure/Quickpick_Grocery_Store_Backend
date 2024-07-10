@@ -29,11 +29,11 @@ class User(db.Model, SerializerMixin):
     # Adding serialization rules
     serialize_rules = ('-orders.user',)
 
-    @validates('email')
-    def validate_email(self, key, email):
-        assert '@' in email, 'Invalid email'
-        return email
-
+    @validates('email', 'backup_email')
+    def validate_email(self, key, value):
+        if '@' not in value:
+            raise ValueError("Failed simple email validation")
+        return value
 # Product model
 class Product(db.Model, SerializerMixin):
     __tablename__ = 'products'
