@@ -15,7 +15,7 @@ db = SQLAlchemy(metadata=metadata)
 
 # User model
 class User(db.Model, SerializerMixin):
-    _tablename_ = 'users'
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, unique=True)
     name = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
@@ -34,7 +34,7 @@ class User(db.Model, SerializerMixin):
             raise ValueError("Failed simple email validation")
         return value
 
-    def _repr_(self):
+    def __repr__(self):
         return f'<User id={self.id} name={self.name} email={self.email} role={self.role}>'
 
     def to_dict(self):
@@ -47,7 +47,7 @@ class User(db.Model, SerializerMixin):
 
 # Product model
 class Product(db.Model, SerializerMixin):
-    _tablename_ = 'products'
+    __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True, unique=True)
     name = db.Column(db.String(150), nullable=False)
     price = db.Column(db.Float, nullable=False)
@@ -61,7 +61,7 @@ class Product(db.Model, SerializerMixin):
     # Adding serialization rules
     serialize_rules = ('-order_products.product',)
 
-    def _repr_(self):
+    def __repr__(self):
         return f'<Product id={self.id} name={self.name} category={self.category} price={self.price}>'
 
     def to_dict(self):
@@ -74,10 +74,9 @@ class Product(db.Model, SerializerMixin):
             'image_url': self.image_url
         }
 
-
 # Order model
 class Order(db.Model, SerializerMixin):
-    _tablename_ = 'orders'
+    __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True, unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     order_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
@@ -90,7 +89,7 @@ class Order(db.Model, SerializerMixin):
     # Adding serialization rules
     serialize_rules = ('-order_products.order', '-user.orders')
 
-    def _repr_(self):
+    def __repr__(self):
         return f'<Order id={self.id} user_id={self.user_id} order_date={self.order_date} total_price={self.total_price}>'
 
     def to_dict(self):
@@ -104,7 +103,7 @@ class Order(db.Model, SerializerMixin):
 
 # Association table for Order-Product Many-to-Many relationship
 class OrderProduct(db.Model, SerializerMixin):
-    _tablename_ = 'order_products'
+    __tablename__ = 'order_products'
     id = db.Column(db.Integer, primary_key=True, unique=True)
     order_id = db.Column(db.Integer, db.ForeignKey('orders.id'), nullable=False)
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
@@ -117,7 +116,7 @@ class OrderProduct(db.Model, SerializerMixin):
     # Adding serialization rules
     serialize_rules = ('-product.order_products', '-order.order_products')
 
-    def _repr_(self):
+    def __repr__(self):
         return f'<OrderProduct order_id={self.order_id} product_id={self.product_id} quantity={self.quantity}>'
 
     def to_dict(self):
