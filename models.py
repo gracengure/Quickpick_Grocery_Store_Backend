@@ -19,9 +19,10 @@ class User(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     name = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
-    password = db.Column(db.String(150), nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
     role = db.Column(db.String(50), nullable=False, default='customer')
-
+     
+    
     # Adding relationship
     orders = db.relationship('Order', back_populates='user')
 

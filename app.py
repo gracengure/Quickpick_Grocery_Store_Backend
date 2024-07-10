@@ -3,6 +3,9 @@ from models import db, User, Product, Order, OrderProduct
 from flask_migrate import Migrate
 from flask import Flask, request, make_response, jsonify
 from flask_restful import Api, Resource
+from flask_jwt_extended import JWTManager
+
+from flask_bcrypt import Bcrypt
 import os
 from datetime import date
 
@@ -12,11 +15,18 @@ DATABASE = os.environ.get("DB_URI", f"sqlite:///{os.path.join(BASE_DIR, 'grocery
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config['JWT_SECRET_KEY'] = False
 app.json.compact = False
 
 migrate = Migrate(app, db)
 db.init_app(app)
 api = Api(app)
+bcrypt = Bcrypt(app)
+jwt = JWTManager(app)
+from Routes.auth import SignupResource, LoginResource
+
+api.add_resource(SignupResource, '/auth/register')
+api.add_resource(LoginResource, '/auth/login')
 
 @app.route("/")
 def index():
