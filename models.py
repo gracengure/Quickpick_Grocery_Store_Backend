@@ -50,6 +50,14 @@ class Product(db.Model, SerializerMixin):
     # Adding serialization rules
     serialize_rules = ('-order_items.product',)
 
+    @validates('price' )
+    def validate_price(self ,key ,value):
+       if not (10 <= value <= 300):
+            raise ValueError("Price must be between 10 and 300.")
+       return value
+    
+    
+
 # Order model
 class Order(db.Model, SerializerMixin):
     __tablename__ = 'orders'
