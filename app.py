@@ -139,8 +139,7 @@ def get_product(product_id):
         'price': product.price,
         'category': product.category,
         'stock_quantity': product.stock_quantity,
-        'description':product.description,
-        'reviews':product.reviews
+        
     }), 200)
     response = make_response(
         jsonify(
@@ -165,8 +164,7 @@ def update_product(product_id):
     product.price = data['price']
     product.category = data['category']
     product.stock_quantity = data['stock_quantity']
-    product.description=data['description']
-    product.reviews=data['reviews']
+   
     
     db.session.commit()
     response = make_response(jsonify(message="Product updated successfully"), 200)
