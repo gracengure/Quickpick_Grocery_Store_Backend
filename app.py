@@ -129,6 +129,21 @@ def get_products():
         response = make_response(jsonify({"error": "Internal Server Error"}), 500)
         return response
 
+@app.route('/products/<category>', methods=['GET'])
+def get_products_by_category(category):
+    try:
+        products = Product.query.filter(Product.category.ilike(category)).all()
+        print(f"Found products: {products}")  # Debug statement
+        if not products:
+            return jsonify({"error": "No products found for this category"}), 404
+        product_data = []
+        for product in products:
+            product_dict = product.to_dict()
+            product_data.append(product_dict)
+        return jsonify(product_data), 200
+    except Exception as e:
+        print(f"Error fetching products: {str(e)}")
+        return jsonify({"error": "Internal Server Error"}), 500
 
 @app.route("/products/<int:product_id>", methods=["GET"])
 def get_product(product_id):
