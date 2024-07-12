@@ -90,7 +90,7 @@ class Order(db.Model, SerializerMixin):
     order_products = db.relationship('OrderProduct', back_populates='order')
     user = db.relationship('User', back_populates='orders')
 
-    # Adding serialization rules
+    # Adding serialization rules(also add -password in the serialization rules)
     serialize_rules = ('-order_products.order', '-user.orders')
 
     def __repr__(self):
