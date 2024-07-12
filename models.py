@@ -19,10 +19,9 @@ class User(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     name = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
-    password_hash = db.Column(db.String(255), nullable=False)
+    password = db.Column(db.String(150), nullable=False)
     role = db.Column(db.String(50), nullable=False, default='customer')
-     
-    
+
     # Adding relationship
     orders = db.relationship('Order', back_populates='user')
 
@@ -55,6 +54,8 @@ class Product(db.Model, SerializerMixin):
     category = db.Column(db.String(150), nullable=False)
     stock_quantity = db.Column(db.Integer, nullable=False)
     image_url = db.Column(db.String(200), nullable=True)
+    description = db.Column(db.String(500), nullable=True)
+    reviews = db.Column(db.Integer, nullable=True)
 
     # Adding relationship
     order_products = db.relationship('OrderProduct', back_populates='product')
@@ -72,7 +73,9 @@ class Product(db.Model, SerializerMixin):
             'price': self.price,
             'category': self.category,
             'stock_quantity': self.stock_quantity,
-            'image_url': self.image_url
+            'image_url': self.image_url,
+            'description':self.description,
+            'reviews':self.reviews
         }
 
 # Order model

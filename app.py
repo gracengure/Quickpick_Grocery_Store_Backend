@@ -3,9 +3,7 @@ from models import db, User, Product, Order, OrderProduct
 from flask_migrate import Migrate
 from flask import Flask, request, make_response, jsonify
 from flask_restful import Api, Resource
-from flask_jwt_extended import JWTManager
-
-from flask_bcrypt import Bcrypt
+from flask_cors import CORS
 import os
 from datetime import date
 
@@ -15,18 +13,12 @@ DATABASE = os.environ.get("DB_URI", f"sqlite:///{os.path.join(BASE_DIR, 'grocery
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config['JWT_SECRET_KEY'] = False
 app.json.compact = False
 
 migrate = Migrate(app, db)
 db.init_app(app)
 api = Api(app)
-bcrypt = Bcrypt(app)
-jwt = JWTManager(app)
-from Routes.auth import SignupResource, LoginResource
-
-api.add_resource(SignupResource, '/auth/register')
-api.add_resource(LoginResource, '/auth/login')
+CORS(app)
 
 @app.route("/")
 def index():
@@ -111,7 +103,9 @@ def get_product(product_id):
         'name': product.name,
         'price': product.price,
         'category': product.category,
-        'stock_quantity': product.stock_quantity
+        'stock_quantity': product.stock_quantity,
+        'description':product.description,
+        'reviews':product.reviews
     }), 200)
     return response
 
@@ -123,6 +117,8 @@ def update_product(product_id):
     product.price = data['price']
     product.category = data['category']
     product.stock_quantity = data['stock_quantity']
+    product.description=data['description']
+    product.reviews=data['reviews']
     db.session.commit()
     response = make_response(jsonify(message="Product updated successfully"), 200)
     return response
