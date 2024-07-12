@@ -7,6 +7,7 @@ import os
 from datetime import date
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DATABASE = os.environ.get(
@@ -24,6 +25,7 @@ bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 db.init_app(app)
 api = Api(app)
+CORS(app)
 
 
 @app.route("/")
