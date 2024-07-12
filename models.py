@@ -71,7 +71,8 @@ class Product(db.Model, SerializerMixin):
             'price': self.price,
             'category': self.category,
             'stock_quantity': self.stock_quantity,
-            'image_url': self.image_url
+            'image_url': self.image_url,
+            
         }
 
 # Order model
