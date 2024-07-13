@@ -50,8 +50,6 @@ def create_user():
     db.session.commit()
     response = make_response(jsonify(new_user_id=new_user.id), 201)
     return response
-
-
 @app.route("/users/<int:user_id>", methods=["PUT"])
 def update_user(user_id):
     data = request.get_json()
