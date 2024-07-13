@@ -107,6 +107,8 @@ def create_product():
         price=data["price"],
         category=data["category"],
         stock_quantity=data["stock_quantity"],
+        description =data["descrption"],
+        supplier =data["supplier"]
     )
     db.session.add(new_product)
     db.session.commit()
