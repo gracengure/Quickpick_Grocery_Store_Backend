@@ -45,7 +45,6 @@ class User(db.Model, SerializerMixin):
             'role': self.role
         }
 
-# Product model
 class Product(db.Model, SerializerMixin):
     __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True, unique=True)
@@ -54,6 +53,8 @@ class Product(db.Model, SerializerMixin):
     category = db.Column(db.String(150), nullable=False)
     stock_quantity = db.Column(db.Integer, nullable=False)
     image_url = db.Column(db.String(200), nullable=True)
+    description = db.Column(db.Text, nullable=True)
+    supplier = db.Column(db.String(150), nullable=True)
 
     # Adding relationship
     order_products = db.relationship('OrderProduct', back_populates='product')
@@ -71,8 +72,11 @@ class Product(db.Model, SerializerMixin):
             'price': self.price,
             'category': self.category,
             'stock_quantity': self.stock_quantity,
-            'image_url': self.image_url
+            'image_url': self.image_url,
+            'description': self.description,
+            'supplier': self.supplier
         }
+
 
 # Order model
 class Order(db.Model, SerializerMixin):
