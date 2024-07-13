@@ -19,7 +19,6 @@ with app.app_context():
     users = [user1, user2, admin]
 
     print("Creating products...")
-
     fruits = [
         Product(name="Apple", price=0.50, category="Fruits", stock_quantity=100, image_url="https://i.pinimg.com/564x/70/b5/92/70b592c1c8f78681dc5bd83bd2d660cf.jpg"),
         Product(name="Banana", price=0.30, category="Fruits", stock_quantity=150, image_url="https://i.pinimg.com/736x/67/ff/04/67ff0431ed4ecbf10ebed90c15eb6d0a.jpg"),
@@ -53,7 +52,6 @@ with app.app_context():
         Product(name="Lettuce", price=0.80, category="Vegetables", stock_quantity=160, image_url="https://i.pinimg.com/564x/90/0c/55/900c55aecb673eb2e025b67f41e09b8a.jpg")
     ]
 
-
     products = fruits + grains + vegetables
 
     print("Creating orders...")
@@ -76,4 +74,3 @@ with app.app_context():
     db.session.commit()
 
     print("Seeding done!")
-    

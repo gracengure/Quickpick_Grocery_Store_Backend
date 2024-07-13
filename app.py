@@ -3,12 +3,10 @@ from models import db, User, Product, Order, OrderProduct
 from flask_migrate import Migrate
 from flask import Flask, request, make_response, jsonify
 from flask_restful import Api, Resource
-from flask_cors import CORS
 import os
 from datetime import date
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
-from flask_cors import CORS
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DATABASE = os.environ.get(
@@ -26,7 +24,6 @@ bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 db.init_app(app)
 api = Api(app)
-CORS(app)
 
 
 @app.route("/")
@@ -129,33 +126,10 @@ def get_products():
         response = make_response(jsonify({"error": "Internal Server Error"}), 500)
         return response
 
-@app.route('/products/<category>', methods=['GET'])
-def get_products_by_category(category):
-    try:
-        products = Product.query.filter(Product.category.ilike(category)).all()
-        print(f"Found products: {products}")  # Debug statement
-        if not products:
-            return jsonify({"error": "No products found for this category"}), 404
-        product_data = []
-        for product in products:
-            product_dict = product.to_dict()
-            product_data.append(product_dict)
-        return jsonify(product_data), 200
-    except Exception as e:
-        print(f"Error fetching products: {str(e)}")
-        return jsonify({"error": "Internal Server Error"}), 500
 
 @app.route("/products/<int:product_id>", methods=["GET"])
 def get_product(product_id):
     product = Product.query.get_or_404(product_id)
-    response = make_response(jsonify({
-        'product_id': product.id,
-        'name': product.name,
-        'price': product.price,
-        'category': product.category,
-        'stock_quantity': product.stock_quantity,
-        
-    }), 200)
     response = make_response(
         jsonify(
             {
@@ -175,12 +149,10 @@ def get_product(product_id):
 def update_product(product_id):
     data = request.get_json()
     product = Product.query.get_or_404(product_id)
-    product.name = data['name']
-    product.price = data['price']
-    product.category = data['category']
-    product.stock_quantity = data['stock_quantity']
-   
-    
+    product.name = data["name"]
+    product.price = data["price"]
+    product.category = data["category"]
+    product.stock_quantity = data["stock_quantity"]
     db.session.commit()
     response = make_response(jsonify(message="Product updated successfully"), 200)
     return response
