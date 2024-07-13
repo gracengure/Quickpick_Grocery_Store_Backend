@@ -46,11 +46,11 @@ with app.app_context():
         Product(name="Carrot", price=0.40, category="Vegetables", stock_quantity=200, image_url="https://i.pinimg.com/564x/ba/05/18/ba05185d357cd59a97110b9a8a57fc31.jpg", description="Fresh carrots", supplier="Vegetable Farm"),
         Product(name="Broccoli", price=0.90, category="Vegetables", stock_quantity=150, image_url="https://i.pinimg.com/564x/29/b3/cb/29b3cbe08421127f03eb643250590c00.jpg", description="Organic broccoli", supplier="Green Leaf Produce"),
         Product(name="Spinach", price=1.00, category="Vegetables", stock_quantity=180, image_url="https://i.pinimg.com/564x/28/28/d4/2828d4a7304777d3b25cf982574f7c2e.jpg", description="Fresh spinach", supplier="Green Leaf Produce"),
-        Product(name="Potato", price=0.50, category="Vegetables", stock_quantity=300, image_url="https://i.pinimg.com/564x/86/92/1a/86921a3f16bfb73e89f93e22eaa9a14c.jpg", description="Versatile potatoes", supplier="Vegetable Farm"),
-        Product(name="Tomato", price=0.70, category="Vegetables", stock_quantity=220, image_url="https://i.pinimg.com/564x/7d/2b/46/7d2b46e1a092f8b6e8e73d2079c929a1.jpg", description="Juicy tomatoes", supplier="Vegetable Farm"),
-        Product(name="Cucumber", price=0.60, category="Vegetables", stock_quantity=170, image_url="https://i.pinimg.com/564x/8b/5c/0a/8b5c0a98f67095f4df9f1fd0c6cf0d30.jpg", description="Crisp cucumbers", supplier="Vegetable Farm"),
-        Product(name="Bell Pepper", price=0.80, category="Vegetables", stock_quantity=160, image_url="https://i.pinimg.com/564x/1c/04/c8/1c04c875eb4c65f91b4f89d05b6b67b0.jpg", description="Sweet bell peppers", supplier="Green Leaf Produce"),
-        Product(name="Onion", price=0.30, category="Vegetables", stock_quantity=250, image_url="https://i.pinimg.com/564x/f5/66/84/f56684b3b036453c62ecf8bb16f8964b.jpg", description="Basic cooking onions", supplier="Vegetable Farm")
+        Product(name="Potato", price=0.50, category="Vegetables", stock_quantity=300, image_url="https://i.pinimg.com/564x/d1/4b/49/d14b49a4c1125b376b4878d52f0a583e.jpg", description="Versatile potatoes", supplier="Vegetable Farm"),
+        Product(name="Tomato", price=0.70, category="Vegetables", stock_quantity=220, image_url="https://i.pinimg.com/564x/79/7e/96/797e9652123593bd04cc0b1970403132.jpg", description="Juicy tomatoes", supplier="Vegetable Farm"),
+        Product(name="Cucumber", price=0.60, category="Vegetables", stock_quantity=170, image_url="https://i.pinimg.com/564x/5b/22/65/5b2265dacf4826d6f826bcb9691f8d19.jpg", description="Crisp cucumbers", supplier="Vegetable Farm"),
+        Product(name="Bell Pepper", price=0.80, category="Vegetables", stock_quantity=160, image_url="https://i.pinimg.com/564x/bd/15/f5/bd15f5863856d1c12cf840f788fd7af4.jpg", description="Sweet bell peppers", supplier="Green Leaf Produce"),
+        Product(name="Onion", price=0.30, category="Vegetables", stock_quantity=250, image_url="https://i.pinimg.com/564x/e3/57/97/e357979e008e839aa6eafadf95ff2feb.jpg", description="Basic cooking onions", supplier="Vegetable Farm")
     ]
 
     orders = [
