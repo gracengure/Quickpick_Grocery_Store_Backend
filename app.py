@@ -150,19 +150,9 @@ def get_products():
 @app.route("/products/<int:product_id>", methods=["GET"])
 def get_product(product_id):
     product = Product.query.get_or_404(product_id)
-    response = make_response(
-        jsonify(
-            {
-                "product_id": product.id,
-                "name": product.name,
-                "price": product.price,
-                "category": product.category,
-                "stock_quantity": product.stock_quantity,
-            }
-        ),
-        200,
-    )
+    response = make_response(jsonify(product.to_dict()), 200)
     return response
+
 
 @app.route('/products/<category>', methods=['GET'])
 def get_products_by_category(category):
