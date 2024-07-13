@@ -1,3 +1,4 @@
+# Corrected seed.py
 #!/usr/bin/env python3
 
 from app import app
@@ -20,57 +21,50 @@ with app.app_context():
 
     print("Creating products...")
     fruits = [
-        Product(name="Apple", price=0.50, category="Fruits", stock_quantity=100, image_url="https://i.pinimg.com/564x/70/b5/92/70b592c1c8f78681dc5bd83bd2d660cf.jpg"),
-        Product(name="Banana", price=0.30, category="Fruits", stock_quantity=150, image_url="https://i.pinimg.com/736x/67/ff/04/67ff0431ed4ecbf10ebed90c15eb6d0a.jpg"),
-        Product(name="Orange", price=0.40, category="Fruits", stock_quantity=120, image_url="https://i.pinimg.com/564x/7a/aa/a5/7aaaa545e00e8a434850e80b8910dd94.jpg"),
-        Product(name="Grapes", price=1.20, category="Fruits", stock_quantity=90, image_url="https://i.pinimg.com/564x/5d/ef/da/5defda60b0de8f3d67f0b362b38113e8.jpg"),
-        Product(name="Strawberry", price=1.50, category="Fruits", stock_quantity=80, image_url="https://i.pinimg.com/564x/77/37/cc/7737cc5acaef557fea76441c3a484890.jpg"),
-        Product(name="Pineapple", price=2.00, category="Fruits", stock_quantity=60, image_url="https://i.pinimg.com/564x/b5/fa/da/b5fada95c76dc2ba9aa6b40a008f7126.jpg"),
-        Product(name="Mango", price=1.75, category="Fruits", stock_quantity=70, image_url="https://i.pinimg.com/564x/68/e4/73/68e473002d030395640718bc5462eabb.jpg"),
-        Product(name="Blueberry", price=3.00, category="Fruits", stock_quantity=50, image_url="https://i.pinimg.com/564x/f3/09/2a/f3092ad2a730bdb5ac5bbb5631ada06e.jpg")
+        Product(name="Apple", price=0.50, category="Fruits", stock_quantity=100, image_url="https://i.pinimg.com/564x/70/b5/92/70b592c1c8f78681dc5bd83bd2d660cf.jpg", description="Fresh apples", supplier="Orchard Fresh"),
+        Product(name="Banana", price=0.30, category="Fruits", stock_quantity=150, image_url="https://i.pinimg.com/736x/67/ff/04/67ff0431ed4ecbf10ebed90c15eb6d0a.jpg", description="Ripe bananas", supplier="Tropical Harvest"),
+        Product(name="Orange", price=0.40, category="Fruits", stock_quantity=120, image_url="https://i.pinimg.com/564x/7a/aa/a5/7aaaa545e00e8a434850e80b8910dd94.jpg", description="Juicy oranges", supplier="Citrus Grove"),
+        Product(name="Grapes", price=1.20, category="Fruits", stock_quantity=90, image_url="https://i.pinimg.com/564x/5d/ef/da/5defda60b0de8f3d67f0b362b38113e8.jpg", description="Seedless grapes", supplier="Vineyard Co."),
+        Product(name="Strawberry", price=1.50, category="Fruits", stock_quantity=80, image_url="https://i.pinimg.com/564x/77/37/cc/7737cc5acaef557fea76441c3a484890.jpg", description="Sweet strawberries", supplier="Berry Fields"),
+        Product(name="Pineapple", price=2.00, category="Fruits", stock_quantity=60, image_url="https://i.pinimg.com/564x/b5/fa/da/b5fada95c76dc2ba9aa6b40a008f7126.jpg", description="Fresh pineapple", supplier="Tropical Harvest"),
+        Product(name="Mango", price=1.75, category="Fruits", stock_quantity=70, image_url="https://i.pinimg.com/564x/68/e4/73/68e473002d030395640718bc5462eabb.jpg", description="Tropical mangoes", supplier="Tropical Harvest"),
+        Product(name="Blueberry", price=3.00, category="Fruits", stock_quantity=50, image_url="https://i.pinimg.com/564x/f3/09/2a/f3092ad2a730bdb5ac5bbb5631ada06e.jpg", description="Organic blueberries", supplier="Berry Fields")
     ]
 
     grains = [
-        Product(name="Rice", price=0.60, category="Grains", stock_quantity=200, image_url="https://i.pinimg.com/564x/aa/17/ff/aa17ff303c9e66cf42512319dab79248.jpg"),
-        Product(name="Wheat", price=0.70, category="Grains", stock_quantity=180, image_url="https://i.pinimg.com/564x/cd/13/b9/cd13b98dfb9527f0d85b206fbbaebe28.jpg"),
-        Product(name="Oats", price=1.10, category="Grains", stock_quantity=150, image_url="https://i.pinimg.com/564x/49/a0/21/49a021b279e14539d69c9c2dfa19035b.jpg"),
-        Product(name="Barley", price=1.20, category="Grains", stock_quantity=130, image_url="https://i.pinimg.com/564x/0b/83/8d/0b838d8e0bde5a8e949ec17649142499.jpg"),
-        Product(name="Quinoa", price=2.50, category="Grains", stock_quantity=100, image_url="https://i.pinimg.com/564x/ad/bd/87/adbd87796b9fa15bd7d8dfa4c83c7385.jpg"),
-        Product(name="Corn", price=0.80, category="Grains", stock_quantity=170, image_url="https://i.pinimg.com/564x/c9/28/83/c92883a1c96a404ae49afc471e083f80.jpg"),
-        Product(name="Millet(Ragi)", price=1.00, category="Grains", stock_quantity=160, image_url="https://i.pinimg.com/564x/49/ac/c4/49acc4f709c9859dff7a7b7b0c054285.jpg"),
-        Product(name="Sorghum", price=1.30, category="Grains", stock_quantity=140, image_url="https://i.pinimg.com/564x/3a/f5/ed/3af5edcd35c2f0d06e03e8e68bf30310.jpg")
+        Product(name="Rice", price=0.60, category="Grains", stock_quantity=200, image_url="https://i.pinimg.com/564x/aa/17/ff/aa17ff303c9e66cf42512319dab79248.jpg", description="Long grain rice", supplier="Grain Co."),
+        Product(name="Wheat", price=0.70, category="Grains", stock_quantity=180, image_url="https://i.pinimg.com/564x/cd/13/b9/cd13b98dfb9527f0d85b206fbbaebe28.jpg", description="Whole wheat", supplier="Grain Co."),
+        Product(name="Oats", price=1.10, category="Grains", stock_quantity=150, image_url="https://i.pinimg.com/564x/49/a0/21/49a021b279e14539d69c9c2dfa19035b.jpg", description="Rolled oats", supplier="Grain Co."),
+        Product(name="Barley", price=1.20, category="Grains", stock_quantity=130, image_url="https://i.pinimg.com/564x/0b/83/8d/0b838d8e0bde5a8e949ec17649142499.jpg", description="Hulled barley", supplier="Grain Co."),
+        Product(name="Quinoa", price=2.50, category="Grains", stock_quantity=100, image_url="https://i.pinimg.com/564x/ad/bd/87/adbd87796b9fa15bd7d8dfa4c83c7385.jpg", description="Organic quinoa", supplier="Superfood Supplies"),
+        Product(name="Corn", price=0.80, category="Grains", stock_quantity=170, image_url="https://i.pinimg.com/564x/c9/28/83/c92883a1c96a404ae49afc471e083f80.jpg", description="Sweet corn", supplier="Grain Co."),
+        Product(name="Millet", price=1.00, category="Grains", stock_quantity=160, image_url="https://i.pinimg.com/564x/49/ac/c4/49acc4f709c9859dff7a7b7b0c054285.jpg", description="Ragi Finger millet", supplier="Grain Co."),
+        Product(name="Sorghum", price=1.30, category="Grains", stock_quantity=140, image_url="https://i.pinimg.com/564x/3a/f5/ed/3af5edcd35c2f0d06e03e8e68bf30310.jpg", description="Whole sorghum", supplier="Grain Co.")
     ]
 
     vegetables = [
-        Product(name="Carrot", price=0.40, category="Vegetables", stock_quantity=200, image_url="https://i.pinimg.com/564x/ba/05/18/ba05185d357cd59a97110b9a8a57fc31.jpg"),
-        Product(name="Broccoli", price=0.90, category="Vegetables", stock_quantity=150, image_url="https://i.pinimg.com/564x/29/b3/cb/29b3cbe08421127f03eb643250590c00.jpg"),
-        Product(name="Spinach", price=1.00, category="Vegetables", stock_quantity=180, image_url="https://i.pinimg.com/564x/28/28/d4/2828d4a7304777d3b25cf982574f7c2e.jpg"),
-        Product(name="Potato", price=0.50, category="Vegetables", stock_quantity=300, image_url="https://i.pinimg.com/564x/86/92/1a/86921a331d7e84e48e009ffa2365a8bc.jpg"),
-        Product(name="Tomato", price=0.70, category="Vegetables", stock_quantity=250, image_url="https://i.pinimg.com/564x/7a/82/04/7a82040e4c6033679ea5ee4789d80961.jpg"),
-        Product(name="Purple onion", price=0.60, category="Vegetables", stock_quantity=220, image_url="https://i.pinimg.com/564x/94/e9/d8/94e9d8d1257eab907167f07da22f527f.jpg"),
-        Product(name="Bell pepper", price=1.20, category="Vegetables", stock_quantity=140, image_url="https://i.pinimg.com/564x/7a/13/14/7a13144182a6dc831a37247134400fd3.jpg"),
-        Product(name="Lettuce", price=0.80, category="Vegetables", stock_quantity=160, image_url="https://i.pinimg.com/564x/90/0c/55/900c55aecb673eb2e025b67f41e09b8a.jpg")
+        Product(name="Carrot", price=0.40, category="Vegetables", stock_quantity=200, image_url="https://i.pinimg.com/564x/ba/05/18/ba05185d357cd59a97110b9a8a57fc31.jpg", description="Fresh carrots", supplier="Vegetable Farm"),
+        Product(name="Broccoli", price=0.90, category="Vegetables", stock_quantity=150, image_url="https://i.pinimg.com/564x/29/b3/cb/29b3cbe08421127f03eb643250590c00.jpg", description="Organic broccoli", supplier="Green Leaf Produce"),
+        Product(name="Spinach", price=1.00, category="Vegetables", stock_quantity=180, image_url="https://i.pinimg.com/564x/28/28/d4/2828d4a7304777d3b25cf982574f7c2e.jpg", description="Fresh spinach", supplier="Green Leaf Produce"),
+        Product(name="Potato", price=0.50, category="Vegetables", stock_quantity=300, image_url="https://i.pinimg.com/564x/86/92/1a/86921a3f16bfb73e89f93e22eaa9a14c.jpg", description="Versatile potatoes", supplier="Vegetable Farm"),
+        Product(name="Tomato", price=0.70, category="Vegetables", stock_quantity=220, image_url="https://i.pinimg.com/564x/7d/2b/46/7d2b46e1a092f8b6e8e73d2079c929a1.jpg", description="Juicy tomatoes", supplier="Vegetable Farm"),
+        Product(name="Cucumber", price=0.60, category="Vegetables", stock_quantity=170, image_url="https://i.pinimg.com/564x/8b/5c/0a/8b5c0a98f67095f4df9f1fd0c6cf0d30.jpg", description="Crisp cucumbers", supplier="Vegetable Farm"),
+        Product(name="Bell Pepper", price=0.80, category="Vegetables", stock_quantity=160, image_url="https://i.pinimg.com/564x/1c/04/c8/1c04c875eb4c65f91b4f89d05b6b67b0.jpg", description="Sweet bell peppers", supplier="Green Leaf Produce"),
+        Product(name="Onion", price=0.30, category="Vegetables", stock_quantity=250, image_url="https://i.pinimg.com/564x/f5/66/84/f56684b3b036453c62ecf8bb16f8964b.jpg", description="Basic cooking onions", supplier="Vegetable Farm")
     ]
 
-    products = fruits + grains + vegetables
+    orders = [
+        Order(user=user1, order_date=date.today(), total_price=30.00),  # Corrected parameter
+        Order(user=user2, order_date=date.today(), total_price=50.00),  # Corrected parameter
+        Order(user=user1, order_date=date.today(), total_price=25.00),  # Corrected parameter
+        Order(user=user2, order_date=date.today(), total_price=40.00)   # Corrected parameter
+    ]
 
-    print("Creating orders...")
-    order1 = Order(user=user1, order_date=date(2024, 3, 3), total_price=10.0)
-    order2 = Order(user=user2, order_date=date(2024, 4, 5), total_price=15.0)
-    orders = [order1, order2]
-
-    print("Creating order_products...")
-    op1 = OrderProduct(order=order1, product=fruits[0], quantity=10)  # Apple
-    op2 = OrderProduct(order=order1, product=grains[0], quantity=5)   # Rice
-    op3 = OrderProduct(order=order2, product=vegetables[0], quantity=8)  # Carrot
-    op4 = OrderProduct(order=order2, product=fruits[2], quantity=3)   # Orange
-    op5 = OrderProduct(order=order2, product=vegetables[3], quantity=6)  # Potato
-    order_products = [op1, op2, op3, op4, op5]
-
+    print("Adding data to the database...")
     db.session.add_all(users)
-    db.session.add_all(products)
+    db.session.add_all(fruits)
+    db.session.add_all(grains)
+    db.session.add_all(vegetables)
     db.session.add_all(orders)
-    db.session.add_all(order_products)
     db.session.commit()
-
-    print("Seeding done!")
+    print("Database seeding complete.")
