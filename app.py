@@ -7,7 +7,7 @@ import os
 from datetime import date
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
-
+from flask_cors import CORS
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DATABASE = os.environ.get(
     "DB_URI", f"sqlite:///{os.path.join(BASE_DIR, 'grocery_store.db')}"
@@ -18,7 +18,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.json.compact = False
 app.config["JWT_SECRET_KEY"] = "super-secret"
-
+CORS(app)
 migrate = Migrate(app, db)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
@@ -144,6 +144,21 @@ def get_product(product_id):
     )
     return response
 
+@app.route('/products/<category>', methods=['GET'])
+def get_products_by_category(category):
+    try:
+        products = Product.query.filter(Product.category.ilike(category)).all()
+        print(f"Found products: {products}")  # Debug statement
+        if not products:
+            return jsonify({"error": "No products found for this category"}), 404
+        product_data = []
+        for product in products:
+            product_dict = product.to_dict()
+            product_data.append(product_dict)
+        return jsonify(product_data), 200
+    except Exception as e:
+        print(f"Error fetching products: {str(e)}")
+        return jsonify({"error": "Internal Server Error"}), 500
 
 @app.route("/products/<int:product_id>", methods=["PUT"])
 def update_product(product_id):
