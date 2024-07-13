@@ -122,18 +122,21 @@ def delete_user(user_id):
 @app.route("/products", methods=["POST"])
 def create_product():
     data = request.get_json()
+    print(data)  # Log incoming data
     new_product = Product(
         name=data["name"],
         price=data["price"],
         category=data["category"],
         stock_quantity=data["stock_quantity"],
-        description =data["descrption"],
-        supplier =data["supplier"]
+        description=data["description"],
+        supplier=data["supplier"]
     )
     db.session.add(new_product)
     db.session.commit()
     response = make_response(jsonify(new_product_id=new_product.id), 201)
     return response
+
+
 
 
 @app.route("/products", methods=["GET"])
