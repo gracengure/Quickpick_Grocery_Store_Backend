@@ -45,11 +45,31 @@ def create_user():
         email=data["email"],
         password=hashed_password,
         role=data.get("role", "customer"),
+        phone_number=data["phone_number"]
     )
     db.session.add(new_user)
     db.session.commit()
     response = make_response(jsonify(new_user_id=new_user.id), 201)
     return response
+
+@app.route("/users", methods=["GET"])
+def get_all_users():
+    try:
+        users = User.query.all()
+        response = make_response(
+            jsonify([{
+                "user_id": user.id,
+                "name": user.name,
+                "email": user.email,
+                "role": user.role,
+                "phone_number":user.phone_number
+            } for user in users]), 200
+        )
+        return response
+    except Exception as e:
+        print(f"Error fetching users: {str(e)}")
+        response = make_response(jsonify({"error": "Internal Server Error"}), 500)
+        return response
 
 
 @app.route("/users/<int:user_id>", methods=["PUT"])
