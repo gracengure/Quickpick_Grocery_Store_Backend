@@ -13,6 +13,7 @@ metadata = MetaData(
 
 db = SQLAlchemy(metadata=metadata)
 
+
 # User model
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
@@ -21,6 +22,7 @@ class User(db.Model, SerializerMixin):
     email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
     role = db.Column(db.String(50), nullable=False, default='customer')
+    phone_number = db.Column(db.String(15), nullable=True) 
 
     # Adding relationship
     orders = db.relationship('Order', back_populates='user')
@@ -34,6 +36,12 @@ class User(db.Model, SerializerMixin):
             raise ValueError("Failed simple email validation")
         return value
 
+    @validates('phone_number')
+    def validate_phone_number(self, key, value):
+        if value and (len(value) < 10 or len(value) > 15):
+            raise ValueError("Phone number must be between 10 and 15 characters")
+        return value
+
     def __repr__(self):
         return f'<User id={self.id} name={self.name} email={self.email} role={self.role}>'
 
@@ -42,7 +50,8 @@ class User(db.Model, SerializerMixin):
             'id': self.id,
             'name': self.name,
             'email': self.email,
-            'role': self.role
+            'role': self.role,
+            'phone_number': self.phone_number  
         }
 
 class Product(db.Model, SerializerMixin):

@@ -14,9 +14,9 @@ with app.app_context():
     User.query.delete()
 
     print("Creating users...")
-    user1 = User(name="John Doe", email="john@example.com", password="password", role="customer")
-    user2 = User(name="Jane Smith", email="jane@example.com", password="password", role="customer")
-    admin = User(name="Admin User", email="admin@example.com", password="password", role="admin")
+    user1 = User(name="John Doe", email="john@example.com", password="password", role="customer", phone_number="1234567890")
+    user2 = User(name="Jane Smith", email="jane@example.com", password="password", role="customer", phone_number="0987654321")
+    admin = User(name="Admin User", email="admin@example.com", password="password", role="admin", phone_number="1122334455")
     users = [user1, user2, admin]
 
     print("Creating products...")

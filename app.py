@@ -51,6 +51,24 @@ def create_user():
     response = make_response(jsonify(new_user_id=new_user.id), 201)
     return response
 
+@app.route("/users", methods=["GET"])
+def get_all_users():
+    try:
+        users = User.query.all()
+        response = make_response(
+            jsonify([{
+                "user_id": user.id,
+                "name": user.name,
+                "email": user.email,
+                "role": user.role,
+            } for user in users]), 200
+        )
+        return response
+    except Exception as e:
+        print(f"Error fetching users: {str(e)}")
+        response = make_response(jsonify({"error": "Internal Server Error"}), 500)
+        return response
+
 
 @app.route("/users/<int:user_id>", methods=["PUT"])
 def update_user(user_id):
