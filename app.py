@@ -45,6 +45,7 @@ def create_user():
         email=data["email"],
         password=hashed_password,
         role=data.get("role", "customer"),
+        phone_number=data["phone_number"]
     )
     db.session.add(new_user)
     db.session.commit()
@@ -61,6 +62,7 @@ def get_all_users():
                 "name": user.name,
                 "email": user.email,
                 "role": user.role,
+                "phone_number":user.phone_number
             } for user in users]), 200
         )
         return response
