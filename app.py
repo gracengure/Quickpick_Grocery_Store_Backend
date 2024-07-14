@@ -311,6 +311,11 @@ def login_user_phone():
         return jsonify({"token": user.token, "success": True}), 200
     else:
         return jsonify({"error": "Invalid phone number or password"}), 401
+@app.route('/products/search', methods=['GET'])
+def search_products():
+    query = request.args.get('name', '')
+    products = Product.query.filter(Product.name.ilike(f'%{query}%')).all()
+    return jsonify([product.to_dict() for product in products])
 
 
 if __name__ == "__main__":
