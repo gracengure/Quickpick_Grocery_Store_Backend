@@ -1,35 +1,46 @@
 #!/usr/bin/env python3
-from models import db, User, Product, Order, OrderProduct
-from flask_migrate import Migrate
-from flask import Flask, request, make_response, jsonify
-from flask_restful import Api, Resource
 import os
 from datetime import date
+from flask import Flask, request, make_response, jsonify
 from flask_bcrypt import Bcrypt
-from flask_jwt_extended import JWTManager
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask_migrate import Migrate
 from flask_cors import CORS
+from functools import wraps
+from models import db, User, Product, Order, OrderProduct
+
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-DATABASE = os.environ.get(
-    "DB_URI", f"sqlite:///{os.path.join(BASE_DIR, 'grocery_store.db')}"
-)
+DATABASE = os.environ.get("DB_URI", f"sqlite:///{os.path.join(BASE_DIR, 'grocery_store.db')}")
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.json.compact = False
-app.config["JWT_SECRET_KEY"] = "super-secret"
+app.config["JWT_SECRET_KEY"] = "super-secret"  
 CORS(app)
 migrate = Migrate(app, db)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 db.init_app(app)
-api = Api(app)
+
+# Decorator for Admin Access
+def admin_required(fn):
+    @wraps(fn)
+    @jwt_required()
+    def wrapper(*args, **kwargs):
+        user_id = get_jwt_identity()
+        user = User.query.get(user_id)
+        if user is None:
+            return jsonify({"error": "User not found"}), 404
+        if user.role != 'admin':
+            return jsonify({"error": "Admin access required"}), 403
+        return fn(*args, **kwargs)
+    return wrapper
 
 
 @app.route("/")
 def index():
     return "<h1>Quick pick groceries</h1>"
-
 
 @app.route("/users", methods=["POST"])
 def create_user():
@@ -49,10 +60,14 @@ def create_user():
     )
     db.session.add(new_user)
     db.session.commit()
-    response = make_response(jsonify(new_user_id=new_user.id), 201)
+
+    access_token = create_access_token(identity=new_user.id)
+    
+    response = make_response(jsonify(new_user_id=new_user.id, access_token=access_token), 201)
     return response
 
 @app.route("/users", methods=["GET"])
+@admin_required
 def get_all_users():
     try:
         users = User.query.all()
@@ -62,7 +77,7 @@ def get_all_users():
                 "name": user.name,
                 "email": user.email,
                 "role": user.role,
-                "phone_number":user.phone_number
+                "phone_number": user.phone_number
             } for user in users]), 200
         )
         return response
@@ -71,8 +86,8 @@ def get_all_users():
         response = make_response(jsonify({"error": "Internal Server Error"}), 500)
         return response
 
-
 @app.route("/users/<int:user_id>", methods=["PUT"])
+@admin_required
 def update_user(user_id):
     data = request.get_json()
     user = User.query.get_or_404(user_id)
@@ -92,8 +107,8 @@ def update_user(user_id):
     response = make_response(jsonify(message="User updated successfully"), 200)
     return response
 
-
 @app.route("/users/<int:user_id>", methods=["GET"])
+@admin_required
 def get_user(user_id):
     user = User.query.get_or_404(user_id)
     response = make_response(
@@ -109,8 +124,8 @@ def get_user(user_id):
     )
     return response
 
-
 @app.route("/users/<int:user_id>", methods=["DELETE"])
+@admin_required
 def delete_user(user_id):
     user = User.query.get_or_404(user_id)
     db.session.delete(user)
@@ -118,8 +133,8 @@ def delete_user(user_id):
     response = make_response("", 204)
     return response
 
-
 @app.route("/products", methods=["POST"])
+@admin_required
 def create_product():
     data = request.get_json()
     new_product = Product(
@@ -133,7 +148,6 @@ def create_product():
     response = make_response(jsonify(new_product_id=new_product.id), 201)
     return response
 
-
 @app.route("/products", methods=["GET"])
 def get_products():
     try:
@@ -146,13 +160,11 @@ def get_products():
         response = make_response(jsonify({"error": "Internal Server Error"}), 500)
         return response
 
-
 @app.route("/products/<int:product_id>", methods=["GET"])
 def get_product(product_id):
     product = Product.query.get_or_404(product_id)
     response = make_response(jsonify(product.to_dict()), 200)
     return response
-
 
 @app.route('/products/<category>', methods=['GET'])
 def get_products_by_category(category):
@@ -171,6 +183,7 @@ def get_products_by_category(category):
         return jsonify({"error": "Internal Server Error"}), 500
 
 @app.route("/products/<int:product_id>", methods=["PUT"])
+@admin_required
 def update_product(product_id):
     data = request.get_json()
     product = Product.query.get_or_404(product_id)
@@ -182,8 +195,8 @@ def update_product(product_id):
     response = make_response(jsonify(message="Product updated successfully"), 200)
     return response
 
-
 @app.route("/products/<int:product_id>", methods=["DELETE"])
+@admin_required
 def delete_product(product_id):
     product = Product.query.get_or_404(product_id)
     db.session.delete(product)
@@ -191,8 +204,8 @@ def delete_product(product_id):
     response = make_response("", 204)
     return response
 
-
 @app.route("/orders", methods=["POST"])
+
 def create_order():
     data = request.get_json()
     new_order = Order(
@@ -205,10 +218,13 @@ def create_order():
     response = make_response(jsonify(new_order_id=new_order.id), 201)
     return response
 
-
 @app.route("/orders/<int:order_id>", methods=["GET"])
+@jwt_required()
 def get_order(order_id):
+    user_id = get_jwt_identity()
     order = Order.query.get_or_404(order_id)
+    if order.user_id != user_id:
+        return jsonify({"error": "Access denied"}), 403
     response = make_response(
         jsonify(
             {
@@ -222,8 +238,8 @@ def get_order(order_id):
     )
     return response
 
-
 @app.route("/orders/<int:order_id>", methods=["PUT"])
+@admin_required
 def update_order(order_id):
     data = request.get_json()
     order = Order.query.get_or_404(order_id)
@@ -234,10 +250,17 @@ def update_order(order_id):
     response = make_response(jsonify(message="Order updated successfully"), 200)
     return response
 
-
 @app.route("/orders/<int:order_id>", methods=["DELETE"])
+@jwt_required()
 def delete_order(order_id):
+    user_id = get_jwt_identity()
     order = Order.query.get_or_404(order_id)
+    
+    if order.user_id != user_id:
+        user = User.query.get(user_id)
+        if user.role != 'admin':
+            return jsonify({"error": "Access denied"}), 403
+
     db.session.delete(order)
     db.session.commit()
     response = make_response("", 204)
