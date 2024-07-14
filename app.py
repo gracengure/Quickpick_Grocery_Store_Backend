@@ -125,7 +125,9 @@ def create_product():
     print(data)  # Log incoming data
     new_product = Product(
         name=data["name"],
+       
         price=data["price"],
+        
         category=data["category"],
         stock_quantity=data["stock_quantity"],
         description=data["description"],
@@ -180,9 +182,12 @@ def update_product(product_id):
     data = request.get_json()
     product = Product.query.get_or_404(product_id)
     product.name = data["name"]
+  
     product.price = data["price"]
     product.category = data["category"]
     product.stock_quantity = data["stock_quantity"]
+    product.description = data["description"]
+    product.supplier = data["supplier"]
     db.session.commit()
     response = make_response(jsonify(message="Product updated successfully"), 200)
     return response
