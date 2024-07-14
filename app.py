@@ -266,6 +266,41 @@ def delete_order(order_id):
     response = make_response("", 204)
     return response
 
+@app.route("/login/email", methods=["POST"])
+def login_user_email():
+    data = request.get_json()
+    email = data.get("email")
+    password = data.get("password")
+    
+    user = User.query.filter_by(email=email).first()
+    
+    if user and bcrypt.check_password_hash(user.password, password):
+        token = create_access_token(identity=user.id)
+        user.token = token
+        db.session.commit()
+        
+        return jsonify({"token": user.token, "success": True}), 200
+    else:
+        return jsonify({"error": "Invalid email or password"}), 401
+    
+
+@app.route("/login/phone", methods=["POST"])
+def login_user_phone():
+    data = request.get_json()
+    phone = data.get("phone")
+    password = data.get("password")
+    
+    user = User.query.filter_by(phone_number=phone).first()
+    
+    if user and bcrypt.check_password_hash(user.password, password):
+        token = create_access_token(identity=user.id)
+        user.token = token
+        db.session.commit()
+        
+        return jsonify({"token": user.token, "success": True}), 200
+    else:
+        return jsonify({"error": "Invalid phone number or password"}), 401
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5555)
