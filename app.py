@@ -266,6 +266,12 @@ def delete_order(order_id):
     response = make_response("", 204)
     return response
 
+@app.route('/products/search', methods=['GET'])
+def search_products():
+    query = request.args.get('name', '')
+    products = Product.query.filter(Product.name.ilike(f'%{query}%')).all()
+    return jsonify([product.to_dict() for product in products])
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5555)
