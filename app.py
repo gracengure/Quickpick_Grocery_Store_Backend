@@ -290,7 +290,7 @@ def login_user_email():
         user.token = token
         db.session.commit()
         
-        return jsonify({"token": user.token, "success": True}), 200
+        return jsonify({"token": user.token, "role": user.role, "success": True}), 200
     else:
         return jsonify({"error": "Invalid email or password"}), 401
     
@@ -308,7 +308,7 @@ def login_user_phone():
         user.token = token
         db.session.commit()
         
-        return jsonify({"token": user.token, "success": True}), 200
+        return jsonify({"token": user.token, "role": user.role, "success": True}), 200
     else:
         return jsonify({"error": "Invalid phone number or password"}), 401
 @app.route('/products/search', methods=['GET'])
@@ -317,6 +317,5 @@ def search_products():
     products = Product.query.filter(Product.name.ilike(f'%{query}%')).all()
     return jsonify([product.to_dict() for product in products])
 
-
 if __name__ == "__main__":
-    app.run(debug=True, port=5555)
+    app.run(debug=True, port=5000)
