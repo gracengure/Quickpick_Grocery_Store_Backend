@@ -290,7 +290,7 @@ def login_user_email():
         user.token = token
         db.session.commit()
         
-        return jsonify({"token": user.token, "role": user.role, "id": user.id, "success": True}), 200
+        return jsonify({"token": user.token, "role": user.role, "success": True}), 200
     else:
         return jsonify({"error": "Invalid email or password"}), 401
     
@@ -308,7 +308,7 @@ def login_user_phone():
         user.token = token
         db.session.commit()
         
-        return jsonify({"token": user.token, "role": user.role, "id": user.id, "success": True}), 200
+        return jsonify({"token": user.token, "role": user.role, "success": True}), 200
     else:
         return jsonify({"error": "Invalid phone number or password"}), 401
 @app.route('/products/search', methods=['GET'])
