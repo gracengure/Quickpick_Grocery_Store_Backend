@@ -137,16 +137,24 @@ def delete_user(user_id):
 @admin_required
 def create_product():
     data = request.get_json()
+    print(data)  # Log incoming data
     new_product = Product(
         name=data["name"],
+       
         price=data["price"],
+        
         category=data["category"],
         stock_quantity=data["stock_quantity"],
+        description=data["description"],
+        supplier=data["supplier"]
     )
     db.session.add(new_product)
     db.session.commit()
     response = make_response(jsonify(new_product_id=new_product.id), 201)
     return response
+
+
+
 
 @app.route("/products", methods=["GET"])
 def get_products():
@@ -188,9 +196,12 @@ def update_product(product_id):
     data = request.get_json()
     product = Product.query.get_or_404(product_id)
     product.name = data["name"]
+  
     product.price = data["price"]
     product.category = data["category"]
     product.stock_quantity = data["stock_quantity"]
+    product.description = data["description"]
+    product.supplier = data["supplier"]
     db.session.commit()
     response = make_response(jsonify(message="Product updated successfully"), 200)
     return response
@@ -307,4 +318,4 @@ def search_products():
     return jsonify([product.to_dict() for product in products])
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5555)
+    app.run(debug=True, port=5000)
