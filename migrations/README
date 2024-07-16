@@ -30,8 +30,8 @@ The front end leverages React along with React Router for intuitive client-side 
 * Product Pages: Detailed product listings with comprehensive Product Details Pages for in-depth information.
 * About Page: Outlines the objectives of the website.
 * Contact Page: Includes inquiry forms for direct communication.
-* User Profile: Allows users to manage their profile details and view their order history.
-* Authentication: Functionalities for login, signup, and logout using tokens stored in localStorage.
+* User Profile management: Allows users to log in/Sign up and securely sign out when necessary, ensuring personalized and secure user interactions.
+* Authentication: Functionalities for login, signup, and sign out using tokens stored in localStorage.
 
 #### Project Solutions
 The project addresses several key solutions to ensure its effectiveness and usability:
@@ -50,7 +50,7 @@ The Minimum Viable Product (MVP) includes essential features necessary for the i
 * Cart and Checkout: Allows users to view the items in their cart, adjust quantities, and proceed to checkout for secure payment processing.
 * Contact Page: Provides a contact form for users to reach out with inquiries, ensuring effective communication with the store administrators.
 * Navigation: Includes a Navbar facilitating seamless movement between Home, About, Categories, Sign Up, Login, and User Profile sections, enhancing overall site usability.
-* User Profile: Allows registered users to manage their profile information, view past order history, and securely logout when necessary, ensuring personalized and secure user interactions.
+* User Profile management: Allows users to log in/Sign up and securely sign out when necessary, ensuring personalized and secure user interactions.
 
 #### Technologies Used
 Backend: Flask, SQLAlchemy
